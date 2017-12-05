@@ -1,9 +1,18 @@
 #include <DS3231.h>
 
 int fadeTime = 1;
-int setHour = 11; 
+int setHour = 17; 
 int setMin = 06;
+
+// pin ~9 PWM
+
 int uled = 9;
+
+// pin 8 
+
+int button = 8;
+
+int buttonState = 0;
 
 int maxBrightness = 255;
 
@@ -16,6 +25,10 @@ void setup() {
   // sets our light as the output on pin ~ 9 which is PWM
   
   pinMode(uled, OUTPUT);
+
+  // sets our button
+
+  pinMode(button, INPUT);
   
   // begins serial communication
   
@@ -46,11 +59,19 @@ Serial.print(" -- ");
   
 //if (t.hour == setHour && t.min == setMin) {
 
-  // checks to know if it's time to wake up
-  
-//  if (t.hour == setHour) {
-//    active();
-//  }
+  // reads the state of the pushbutton value;
+
+  buttonState = digitalRead(button);
+
+  if (buttonState == 1) {
+    Serial.println("button pressed");
+    active();
+    buttonState = 0;
+  } else if (t.hour == setHour) {
+    active();
+  } 
+ 
+
 
   
 
