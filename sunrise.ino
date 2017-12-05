@@ -53,7 +53,7 @@ if (t.hour == setHour) {
 
   
 
-// wait one second before repeating
+// wait one second before repeating TEST
 delay(1000);
 
 }
