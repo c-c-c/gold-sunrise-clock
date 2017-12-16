@@ -1,8 +1,10 @@
 #include <DS3231.h>
 
+// settings
+
 int fadeTime = 1;
-int setHour = 17; 
-int setMin = 06;
+int setHour = 16; 
+int setMin = 05;
 
 // pin ~9 PWM
 
@@ -43,7 +45,8 @@ void loop() {
 
 Serial.print(" -- ");
 
-  // checks if its time to start getting bright
+  // checks if its time to start getting bright 
+  // aka when it's time to wake up.
   
   Serial.print("SET: ");
   Serial.print(setHour);
@@ -65,19 +68,21 @@ Serial.print(" -- ");
 
   if (buttonState == 1) {
     Serial.println("button pressed");
+
+    // button for demo purposes
+    
     active();
+
+    // resets the button to 0
+    
     buttonState = 0;
   } else if (t.hour == setHour) {
     active();
   } 
  
-
-
-  
-
   // waits one second before repeating 
   
-  delay(1000);
+  delay(500);
 
 }
 
@@ -85,11 +90,10 @@ void active() {
   
   Serial.println(" led turned on");
 
-//  analogWrite(uled, maxBrightness);
-//  delay(1000);
-//  analogWrite(uled,  0);
-//  delay(1000);
-
+  // fade begin
+  
+  // the delay functions are to prevent the LED from becoming too bright 
+  // in the early stages of the fadetime. 
   
   analogWrite(uled, 1);
   delay((fadeTime * 60000)/50);
@@ -106,9 +110,10 @@ void active() {
   analogWrite(uled, 5);
   delay((fadeTime * 60000)/50);
 
-  // fade begin
-  // controls the speed at which the light becomes brighter and brighter
-  // depending on the fadetime set above.
+
+  // for statement controls the speed 
+  // at which the light should get brighter and brighter
+  // depending on the fadetime.
 
   for (int i = 6; i <= 255; i++) {
     analogWrite(uled, i);
@@ -118,10 +123,10 @@ void active() {
     Serial.print(" PWM : ");
     Serial.println(i);
     }
-
-    // set bright for 1/5 of the set time
+    
     delay((fadeTime * 60000)/5); 
-    // set back to OFF
+    
+    // shuts the light off. 
     analogWrite(uled, 0);
   
   }
